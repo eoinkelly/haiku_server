@@ -13,6 +13,15 @@ use hyper::header::ContentLength;
 use std::io::Write; // required for write_all()
 use std::env;
 
+const DEFAULT_IP: &'static str = "0.0.0.0";
+const DEFAULT_PORT: &'static str = "3000";
+
+fn main() {
+    let connection_str = format!("{}:{}", DEFAULT_IP, get_server_port());
+    println!("Starting haiku server on {}", connection_str);
+    Server::http(connection_str.as_str()).unwrap().handle(handler).unwrap();
+}
+
 fn get_server_port() -> String {
     match env::var("PORT") {
         Ok(port) => port,
@@ -26,13 +35,9 @@ fn handler(req: Request, mut res: Response) {
             println!("Processing GET request");
 
             let haiku = Haiku::choose_random();
-            let fallback = String::from("failed to find value");
+            // let fallback = String::from("failed to encode the haiku as JSON");
 
-            let body_json = match json::encode(&haiku) {
-                Ok(json) => json,
-                Err(_) => fallback,
-            };
-
+            let body_json = json::encode(&haiku).unwrap();
             let body_bytes = body_json.as_bytes();
 
             // get a mutable reference to headers and then set the content length to be the length
@@ -43,18 +48,10 @@ fn handler(req: Request, mut res: Response) {
             // mutable response that you can use to write the body
             let mut mut_res = res.start().unwrap();
 
+            // write the body bytes into the stream
             mut_res.write_all(body_bytes).unwrap();
         }
         // Set status to HTTP 405 (Method not allowed) for all other HTTP methods
         _ => *res.status_mut() = StatusCode::MethodNotAllowed,
     }
-}
-
-const DEFAULT_IP: &'static str = "0.0.0.0";
-const DEFAULT_PORT: &'static str = "3000";
-
-fn main() {
-    let connection_str = format!("{}:{}", DEFAULT_IP, get_server_port());
-    println!("Starting haiku server on port {}", connection_str);
-    Server::http(connection_str.as_str()).unwrap().handle(handler).unwrap();
 }

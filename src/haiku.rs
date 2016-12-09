@@ -1,75 +1,77 @@
 extern crate rand;
 use rand::Rng;
 
-static FALLBACK_HAIKU: &'static str = "Could not find\nA proper haiku\nSo sorry friend\n";
+static FALLBACK_HAIKU: [&'static str; 3] = ["Could not find", "A proper haiku", "So sorry friend"];
 
-static HAIKUS: [&'static str; 53] =
-    ["In a dream, it came\nThe pickle farmer's great hat\nIt emcompassed all.\n",
-     "Roberto resigns.\nHis seat vacant, Rabid war\nbegins for the throne.\n",
-     "Rob's heir is most clear\nHis will, in absentia:\nMy reign will begin\n",
-     "all competitors\nswiftly dealt to; syllabic\nerrors found with glee.\n",
-     "Foul knaves assault me\nA queen the throne demands now\nOnly one can be\n",
-     "Claim unrescinded\nSmack talking haiku battle\nI'll end false regents\n",
-     "Haiku is easy\nsyllable-based poetry\nFive seven then five\n",
-     "Tower of Babel:\nPhonegap plus framework plus grunt\nEnds in avalanche.\n",
-     "Today is enjoy.\nTomorrow will be better\nThen I fly away\n",
-     "excuse of illness\ntomorrow excuse of death\nthen there's no excuse\n",
-     "poor wee roberto\ndo you know how syllables work?\nhaiku master no more\n",
-     "Sad melancholy.\nA new face met, and then lost.\nWashed clean, a fresh slate.\n",
-     "Poetry is fun\nLet us save the magic here\nBeautiful artwork\n",
-     "their software libre\ncoders quiver with caffeine\nquietly tapping keys\n",
-     "There is nought more sad\nThan haiku in disarray\nSo arrange yourselves\n",
-     "long-awaited rain\nsad timing on post-chalk day\nhaiku, moustache, gone\n",
-     "I like how the word\n'telecommunications'\nfills out this haiku\n",
-     "darkest chocolate\nfrozen vanilla ice cream\naffogato dream\n",
-     "look behind you, rob\nhitchcock-like, typing usurped\nyou thought you were safe\n",
-     "beware it's a cat\nhis bristly whiskers attack\nwithout a respite\n",
-     "Great job team Rabid!\nBringing haiku to Railscamp.\nHaters gonna hate.\n",
-     "outside, afternoon:\ndecagonal frisbee time.\nbromance abounded\n",
-     "lachlan's pain right now:\nstyling ephemeral things.\nlife, CSS, hurt.\n",
-     "matt loves his ice cream.\ncoffeescript affogato:\na tasty dessert.\n",
-     "Recursive Haiku.\nYou know recursive Haiku?\nGo back to line one.\n",
-     "A simple request\nPlease don't kill me so quickly\nI'm not a werewolf\n",
-     "Welcome! Home again!\nRabid does what we do best;\nNerf wars are a go.\n",
-     "I want a smoothie;\nI need it in my body;\nGive it to me now.\n",
-     "Oh man, computers!\nI was like, how do they work?\nThis stuff is silly.\n",
-     "Walking down the street,\nCan't contain my haiku glee!\nWalk into a bush\n",
-     "eat cake every day\nit's not very healthy but\nlife is very long\n",
-     "Didn't know that cats snore\nMerrin would have a field day\nWith my flat of cats\n",
-     "Breccan in cream pants?\nA first; the omen is clear,\nApocalypse now.\n",
-     "Cats cats, cats cats cats.\nCats! Cats, cats cats? Cats cats cats;\nCats, cats, \ncats \
-      cats cats!\n",
-     "To join our great team,\nYou must show skill at haiku\nand perhaps coding.\n",
-     "She is a poet,\nI think that she may know it.\nPlease alert the press\n",
-     "forlorn ex-apple\nlonely core in coffee cup\nas autumn sun shines\n",
-     "when will lunch time be?\ni crave tasty sustenance\nand beer in the sun\n",
-     "should haiku index\nshowcase new leaves at the top\nlike noble oak trees\n",
-     "This isn't a test,\nThis is actually life.\nGet used to it fast.\n",
-     "railscamp afternoon,\nleaf shades dance on dusty glass;\nhangover study\n",
-     "Mat with just one 't'.\nA game: Dogsteroids. Pew pew!\nGoodbye, sweet doggies.\n",
-     "The Haiku Master,\nsmiles as new Haiku appear.\nBest app at Railscamp?\n",
-     "I suspect Breccan.\nFellow villagers listen,\nfor haikus don't lie.\n",
-     "I believe in love;\nDo you believe in magic?\nScience reigns supreme.\n",
-     "Hsoj, hsoj, come\nHsoj, hsoj, hsoj, here\nHsoj, hsoj, now\n",
-     "A pull request sent.\nListening for a response.\nThe cavern echoes.\n",
-     "my hands are very cold\nintermittently i place\nthem under my butt\n",
-     "Warmth radiating.\nIn this finger numbing world,\nit is the small things.\n",
-     "mmm coffee coffee,\nmmm coffee coffee coffee,\nI need more coffee.\n",
-     "A bubble appeared.\nLong-lived but ephemeral. \nTraversed the lunch room.\n",
-     "Merrin and Matt\nDead to us but still they live\non in our tiny dreams.\n",
-     "The bubble had dreams.\nTo ascend into heaven\nBut settled for less.\n"];
+static HAIKUS: [[&'static str; 3]; 53] =
+    [["In a dream, it came", "The pickle farmer's great hat", "It emcompassed all"],
+     ["Roberto resigns", "His seat vacant, Rabid war", "begins for the throne"],
+     ["Rob's heir is most clear", "His will, in absentia:", "My reign will begin"],
+     ["all competitors", "swiftly dealt to; syllabic", "errors found with glee"],
+     ["Foul knaves assault me", "A queen the throne demands now", "Only one can be"],
+     ["Claim unrescinded", "Smack talking haiku battle", "I'll end false regents"],
+     ["Haiku is easy", "syllable-based poetry", "Five seven then five"],
+     ["Tower of Babel:", "Phonegap plus framework plus grunt", "Ends in avalanche"],
+     ["Today is enjoy", "Tomorrow will be better", "Then I fly away"],
+     ["excuse of illness", "tomorrow excuse of death", "then there's no excuse"],
+     ["poor wee roberto", "do you know how syllables work?", "haiku master no more"],
+     ["Sad melancholy", "A new face met, and then lost", "Washed clean, a fresh slate"],
+     ["Poetry is fun", "Let us save the magic here", "Beautiful artwork"],
+     ["their software libre", "coders quiver with caffeine", "quietly tapping keys"],
+     ["There is nought more sad", "Than haiku in disarray", "So arrange yourselves"],
+     ["long-awaited rain", "sad timing on post-chalk day", "haiku, moustache, gone"],
+     ["I like how the word", "'telecommunications'", "fills out this haiku"],
+     ["darkest chocolate", "frozen vanilla ice cream", "affogato dream"],
+     ["look behind you, rob", "hitchcock-like, typing usurped", "you thought you were safe"],
+     ["beware it's a cat", "his bristly whiskers attack", "without a respite"],
+     ["Great job team Rabid!", "Bringing haiku to Railscamp", "Haters gonna hate"],
+     ["outside, afternoon:", "decagonal frisbee time", "bromance abounded"],
+     ["lachlan's pain right now:", "styling ephemeral things", "life, CSS, hurt"],
+     ["matt loves his ice cream", "coffeescript affogato:", "a tasty dessert"],
+     ["Recursive Haiku", "You know recursive Haiku?", "Go back to line one"],
+     ["A simple request", "Please don't kill me so quickly", "I'm not a werewolf"],
+     ["Welcome! Home again!", "Rabid does what we do best;", "Nerf wars are a go"],
+     ["I want a smoothie;", "I need it in my body;", "Give it to me now"],
+     ["Oh man, computers!", "I was like, how do they work?", "This stuff is silly"],
+     ["Walking down the street,", "Can't contain my haiku glee!", "Walk into a bush"],
+     ["eat cake every day", "it's not very healthy but", "life is very long"],
+     ["Didn't know that cats snore", "Merrin would have a field day", "With my flat of cats"],
+     ["Breccan in cream pants?", "A first; the omen is clear,", "Apocalypse now"],
+     ["Cats cats, cats cats cats",
+      "Cats! Cats, cats cats? Cats cats cats;",
+      "Cats, cats, cats cats cats!"],
+     ["To join our great team,", "You must show skill at haiku", "and perhaps coding"],
+     ["She is a poet,", "I think that she may know it", "Please alert the press"],
+     ["forlorn ex-apple", "lonely core in coffee cup", "as autumn sun shines"],
+     ["when will lunch time be?", "i crave tasty sustenance", "and beer in the sun"],
+     ["should haiku index", "showcase new leaves at the top", "like noble oak trees"],
+     ["This isn't a test,", "This is actually life", "Get used to it fast"],
+     ["railscamp afternoon,", "leaf shades dance on dusty glass;", "hangover study"],
+     ["Mat with just one 't'", "A game: Dogsteroids Pew pew!", "Goodbye, sweet doggies"],
+     ["The Haiku Master,", "smiles as new Haiku appear", "Best app at Railscamp?"],
+     ["I suspect Breccan", "Fellow villagers listen,", "for haikus don't lie"],
+     ["I believe in love;", "Do you believe in magic?", "Science reigns supreme"],
+     ["Hsoj, hsoj, come", "Hsoj, hsoj, hsoj, here", "Hsoj, hsoj, now"],
+     ["A pull request sent", "Listening for a response", "The cavern echoes"],
+     ["my hands are very cold", "intermittently i place", "them under my butt"],
+     ["Warmth radiating", "In this finger numbing world,", "it is the small things"],
+     ["mmm coffee coffee,", "mmm coffee coffee coffee,", "I need more coffee"],
+     ["A bubble appeared", "Long-lived but ephemeral ", "Traversed the lunch room"],
+     ["Merrin and Matt", "Dead to us but still they live", "on in our tiny dreams"],
+     ["The bubble had dreams", "To ascend into heaven", "But settled for less"]];
 
 #[derive(Debug)]
 #[derive(RustcEncodable)]
 pub struct Haiku<'a> {
-    pub content: &'a str,
+    pub lines: &'a [&'a str; 3],
 }
 
 impl<'a> Haiku<'a> {
     pub fn choose_random() -> Self {
-        match rand::thread_rng().choose(&HAIKUS) {
-            Some(haiku) => Haiku { content: haiku },
-            None => Haiku { content: &FALLBACK_HAIKU },
-        }
+        let lines = match rand::thread_rng().choose(&HAIKUS) {
+            Some(lines) => lines,
+            None => &FALLBACK_HAIKU,
+        };
+        Haiku { lines: lines }
     }
 }
