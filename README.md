@@ -1,3 +1,8 @@
+# Silly Haiku server
+
+A silly little HTTP server I wrote to learn some rust. It will serve you a
+(very pseudo) pseudorandom Haiku.
+
 # Building
 I had to set the following on macOS to get the openssl crate to build:
 
