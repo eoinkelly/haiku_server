@@ -9,7 +9,7 @@ use rustc_serialize::json;
 
 use hyper::server::{Server, Request, Response};
 use hyper::status::StatusCode;
-use hyper::header::ContentLength;
+use hyper::header::{ContentLength, AccessControlAllowOrigin};
 use std::io::Write; // required for write_all()
 use std::env;
 
@@ -35,14 +35,13 @@ fn handler(req: Request, mut res: Response) {
             println!("Processing GET request");
 
             let haiku = Haiku::choose_random();
-            // let fallback = String::from("failed to encode the haiku as JSON");
-
             let body_json = json::encode(&haiku).unwrap();
             let body_bytes = body_json.as_bytes();
 
             // get a mutable reference to headers and then set the content length to be the length
             // of body we are about to send
             res.headers_mut().set(ContentLength(body_bytes.len() as u64));
+            res.headers_mut().set(AccessControlAllowOrigin::Any);
 
             // "consume" this response by writing headers and status to the stream and creating a
             // mutable response that you can use to write the body
