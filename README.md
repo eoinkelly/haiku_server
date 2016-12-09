@@ -10,3 +10,12 @@ I had to set the following on macOS to get the openssl crate to build:
 export OPENSSL_INCLUDE_DIR=/usr/local/opt/openssl/include;
 export DEP_OPENSSL_INCLUDE=/usr/local/opt/openssl/include;
 ```
+
+# Deploying (Heroku)
+
+```
+cd path/to/this/repo
+$ heroku login
+$ heroku create --buildpack https://github.com/emk/heroku-buildpack-rust.git
+$ git push heroku master
+```
