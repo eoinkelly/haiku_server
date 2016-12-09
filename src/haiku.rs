@@ -60,6 +60,7 @@ static HAIKUS: [&'static str; 53] =
      "The bubble had dreams.\nTo ascend into heaven\nBut settled for less.\n"];
 
 #[derive(Debug)]
+#[derive(RustcEncodable)]
 pub struct Haiku<'a> {
     pub content: &'a str,
 }
@@ -71,9 +72,4 @@ impl<'a> Haiku<'a> {
             None => Haiku { content: &FALLBACK_HAIKU },
         }
     }
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
 }

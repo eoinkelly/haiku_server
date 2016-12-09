@@ -6,3 +6,4 @@ authors = ["Eoin Kelly <eoin@rabidtech.co.nz>"]
 [dependencies]
 hyper = "0.9"
 rand = "0.3.15"
+rustc-serialize = "0.3.22"
