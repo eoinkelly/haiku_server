@@ -11,7 +11,14 @@ use hyper::server::{Server, Request, Response};
 use hyper::status::StatusCode;
 use hyper::header::ContentLength;
 use std::io::Write; // required for write_all()
+use std::env;
 
+fn get_server_port() -> String {
+    match env::var("PORT") {
+        Ok(port) => port,
+        Err(_) => String::from(DEFAULT_PORT),
+    }
+}
 
 fn handler(req: Request, mut res: Response) {
     match req.method {
@@ -43,11 +50,11 @@ fn handler(req: Request, mut res: Response) {
     }
 }
 
-const IP: &'static str = "0.0.0.0";
-const PORT: &'static str = "3000";
+const DEFAULT_IP: &'static str = "0.0.0.0";
+const DEFAULT_PORT: &'static str = "3000";
 
 fn main() {
-    let connection_str = format!("{}:{}", IP, PORT);
+    let connection_str = format!("{}:{}", DEFAULT_IP, get_server_port());
     println!("Starting haiku server on port {}", connection_str);
     Server::http(connection_str.as_str()).unwrap().handle(handler).unwrap();
 }
