@@ -3,6 +3,10 @@ use haiku::Haiku;
 
 extern crate hyper;
 extern crate rand;
+extern crate yaml_rust;
+
+#[macro_use]
+extern crate lazy_static;
 
 extern crate rustc_serialize;
 use rustc_serialize::json;
@@ -10,15 +14,24 @@ use rustc_serialize::json;
 use hyper::server::{Server, Request, Response};
 use hyper::status::StatusCode;
 use hyper::header::{ContentLength, AccessControlAllowOrigin};
-use std::io::Write; // required for write_all()
+use std::io::Write;
 use std::env;
 
+// Configuration
 const DEFAULT_IP: &'static str = "0.0.0.0";
 const DEFAULT_PORT: &'static str = "3000";
+const HAIKU_YAML_FILE_PATH: &'static str = "./data/haiku.yml";
+
+lazy_static! {
+    static ref HAIKUS: Vec<Haiku> = {
+        Haiku::load_from_yaml(HAIKU_YAML_FILE_PATH)
+    };
+}
 
 fn main() {
     let connection_str = format!("{}:{}", DEFAULT_IP, get_server_port());
     println!("Starting haiku server on {}", connection_str);
+
     Server::http(connection_str.as_str()).unwrap().handle(handler).unwrap();
 }
 
@@ -34,7 +47,7 @@ fn handler(req: Request, mut res: Response) {
         hyper::Get => {
             println!("Processing GET request");
 
-            let haiku = Haiku::choose_random();
+            let haiku = Haiku::choose_random(&HAIKUS);
             let body_json = json::encode(&haiku).unwrap();
             let body_bytes = body_json.as_bytes();
 

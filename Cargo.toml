@@ -7,3 +7,5 @@ authors = ["Eoin Kelly <eoin@rabidtech.co.nz>"]
 hyper = "0.9"
 rand = "0.3.15"
 rustc-serialize = "0.3.22"
+yaml-rust = "*"
+lazy_static = "0.2.2"
